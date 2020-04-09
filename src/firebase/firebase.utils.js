@@ -14,6 +14,33 @@ const config = {
   appId: "1:1080654943189:web:685e6cbd14999eead4a35c",
   measurementId: "G-V7DV67XVWM"
 };
+// userAuth is the object passed when we successfully log in using google and is stored in our DB
+// Adds a user to the firebase DB
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  // If userAuth does not exist, return out
+  if (!userAuth) return;
+  // If userAuth is true, make a query to the firestore using the userAuth.uid and set to userREf
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  // Using the userRef.get(), we will access the snapshot with user data properties
+  const snapShot = await userRef.get();
+  // If snapShot does not exist, destructure userAuth and get displayName, email and date then set userREf to these
+  if(!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData
+      })
+    } catch(error) {
+      console.log('error creating user', error.message);
+    }
+  }
+  // Returns userRef from firebase DB so we can store in local state
+  return userRef;
+}
 
 firebase.initializeApp(config);
 
