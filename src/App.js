@@ -38,8 +38,6 @@ class App extends React.Component {
               ...snapShot.data()
             }
           });
-
-          console.log(this.state);
         });
         // If user logged out, it will reset state to null
       } else {
