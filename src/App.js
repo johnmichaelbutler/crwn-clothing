@@ -8,21 +8,18 @@ import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up
 import { auth , createUserProfileDocument } from './firebase/firebase.utils';
 
 import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setCurrentUser } from './redux/user/user.actions';
 
 
 
 class App extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      currentUser: null
-    }
-  }
 
   unsubscribeFromAuth = null;
 
   componentDidMount() {
+    // Destruc the setCurrentUser object
+    const {setCurrentUser} = this.props;
     // Allows us to add a user from firebase DB to our state
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       // If our user is logged in
@@ -32,16 +29,15 @@ class App extends React.Component {
         // This is a listener that will listen to any changes to our data but will also return the first state of that data
         userRef.onSnapshot(snapShot=> {
           // Use data to set state using snapShot.id for the id and snapShot.data() to access email, username etc...
-          this.setState({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data()
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data()
             }
-          });
+          );
         });
         // If user logged out, it will reset state to null
       } else {
-        this.setState({currentUser: userAuth});
+        setCurrentUser(userAuth);
       }
     })
   }
@@ -53,7 +49,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header currentUser={this.state.currentUser} />
+        <Header />
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
@@ -65,4 +61,16 @@ class App extends React.Component {
   }
 }
 
-export default App;
+/*
+Function that gets dispatch as a param. It will return an object where the prop name
+is whatever we want to prop in that dispatches the action e are trying to pass, which is
+currentUser.
+
+Dispatch is a way for redux to know that whatever the object that is being passed
+is an action object that will be passed to every reducer
+*/
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+})
+
+export default connect(null, mapDispatchToProps)(App);
