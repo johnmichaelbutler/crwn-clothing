@@ -10,6 +10,8 @@
   top: 90px;
   right: 40px;
   z-index: 5;
+  // Edit to Make box fit
+  box-sizing: content-box;
 
   .empty-message {
     font-size: 18px;
