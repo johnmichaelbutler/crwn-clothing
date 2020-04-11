@@ -4,6 +4,8 @@ import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg';
 import { connect } from 'react-redux';
 import { toggleCartHidden } from '../../redux/cart/cart.actions';
 import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
+import { createStructuredSelector } from 'reselect';
+
 
 const CartIcon = ({ toggleCartHidden, itemCount }) => (
   <div className='cart-icon' onClick={toggleCartHidden}>
@@ -11,10 +13,6 @@ const CartIcon = ({ toggleCartHidden, itemCount }) => (
     <span className='item-count'>{itemCount}</span>
   </div>
 )
-
-// const mapStateToProps = state => ({
-//   *: state.hidden
-// })
 
 const mapDispatchToProps = dispatch => ({
   toggleCartHidden: () => dispatch(toggleCartHidden())
@@ -24,8 +22,8 @@ const mapDispatchToProps = dispatch => ({
 part to use. In this case, we are using the reduce method to accumulate the quantity to show
 inside of our cart icon
 */
-const mapStateToProps = state => ({
-  itemCount: selectCartItemsCount(state)
+const mapStateToProps = createStructuredSelector({
+  itemCount: selectCartItemsCount
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);
