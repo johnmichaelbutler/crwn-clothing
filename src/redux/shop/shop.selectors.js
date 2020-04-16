@@ -9,12 +9,12 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsForPreview = createSelector(
   [selectCollections],
-  // Object.keys returns an array of the keys of the object
-  collections => Object.keys(collections).map(key => collections[key])
+  // Since initial state is null, Object.keys returns an array of the keys of the object or if no collections, an empty array
+  collections => collections ? Object.keys(collections).map(key => collections[key]) : []
 );
 
 export const selectCollection = collectionUrlParam =>
 createSelector(
   [selectCollections],
-  collections => collections[collectionUrlParam]
+  collections => (collections ? collections[collectionUrlParam] : null)
   );

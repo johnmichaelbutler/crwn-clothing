@@ -42,6 +42,41 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 }
 
+// Function to add new collections and document to oure firestore DB
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);
+  console.log(collectionRef);
+
+  const batch = firestore.batch();
+  objectsToAdd.forEach(object => {
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, object);
+  });
+
+  return await batch.commit();
+}
+
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map(doc => {
+    const { title, items } = doc.data();
+    // This is the final shape of the data that we want
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      // ID is found on the doc, not on the data
+      id: doc.id,
+      title, items
+    };
+  });
+  
+  // For each object passed into the reduce function, we will start with an empty object.
+  // The object will take the title (which is lowercased) and pass that as the key for our
+  // accumulator. We will set that value equal to our collection then return it
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    return accumulator;
+  }, {});
+}
+
 firebase.initializeApp(config);
 
 // Help us get access to google auth process

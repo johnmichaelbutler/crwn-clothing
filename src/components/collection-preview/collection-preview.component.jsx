@@ -1,11 +1,11 @@
 import React from 'react';
 import CollectionItem from '../collection-item/collection-item.component';
-import './collection-preview.styles.scss';
+import CollectionPreviewContainer from './collection-preview.styles';
 
 const CollectionPreview = ({ title, items }) => (
-  <div className='collection-preview'>
-    <h1 className='title'>{title.toUpperCase()}</h1>
-    <div className='preview'>
+  <CollectionPreviewContainer>
+    <h1>{title.toUpperCase()}</h1>
+    <div>
       {
         // Checks to make sure that only 4 items are passed to shop page then maps over to return a div with item name
         items
@@ -15,7 +15,7 @@ const CollectionPreview = ({ title, items }) => (
         ))
       }
     </div>
-  </div>
+  </CollectionPreviewContainer>
 )
 
 export default CollectionPreview;
