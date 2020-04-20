@@ -9,7 +9,6 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { signOutStart } from '../../redux/user/user.actions';
 
 import { HeaderContainer, LogoContainer, OptionLink, OptionsContainer } from './header.styles';
-// import './header.styles.scss';
 
 const Header = ({ currentUser, hidden, signOutStart }) => (
   <HeaderContainer>
