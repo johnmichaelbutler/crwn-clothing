@@ -67,7 +67,6 @@ export const convertCollectionsSnapshotToMap = (collections) => {
       title, items
     };
   });
-  
   // For each object passed into the reduce function, we will start with an empty object.
   // The object will take the title (which is lowercased) and pass that as the key for our
   // accumulator. We will set that value equal to our collection then return it
@@ -77,17 +76,26 @@ export const convertCollectionsSnapshotToMap = (collections) => {
   }, {});
 }
 
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject)
+  })
+}
+
 firebase.initializeApp(config);
 
 // Help us get access to google auth process
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
-// Gives us acces to GoogleAuthProvider from auth library
-const provider = new firebase.auth.GoogleAuthProvider();
+// Gives us acces to GoogleAuthProvider from auth library. Will export out to use with redux saga to signIn. 
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
 //This allows us to use the popup that comes up to allow us to select our google account
-provider.setCustomParameters({ prompt: 'select_account' });
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 // signInWithPopup can take many params, including google, twitter etc.. We want google
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 export default firebase;

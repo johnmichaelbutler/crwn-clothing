@@ -1,19 +1,24 @@
 import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import { persistStore } from 'redux-persist';
+import createSagaMiddleware from 'redux-saga';
 
 import rootReducer from './root-reducer';
+import rootSaga from './root-saga';
 
-// Our middlewares will be in an array which will be spread into applymiddlware in store
-const middlewares = [logger];
+const sagaMiddleware = createSagaMiddleware();
+
+const middlewares = [sagaMiddleware];
 
 // Allows us to only have logger middleware in development, not production
 if (process.env.NODE_ENV === 'development') {
   middlewares.push(logger);
 }
 
-// Our store is created using createStore and is passed the root reducer and applymiddleware
 export const store = createStore(rootReducer, applyMiddleware(...middlewares));
+
+sagaMiddleware.run(rootSaga);
+
 export const persistor = persistStore(store);
 
 export default { store, persistor };
