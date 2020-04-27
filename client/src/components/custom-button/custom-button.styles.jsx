@@ -4,6 +4,10 @@ const buttonStyles = css `
   background-color: black;
   color: white;
   border: none;
+  @media screen and (max-width: 800px) {
+    font-size: 13px;
+
+  }
 
   &:hover {
     background-color: white;
@@ -37,6 +41,9 @@ const getButtonStyles = props => {
 const googleSignInStyles = css`
   background-color: #4285f4;
   color: white;
+  @media screen and (max-width: 800px) {
+    font-size: 13px;
+  }
 
   &:hover {
     background-color: #357ae8;
@@ -49,8 +56,8 @@ export const CustomButtonContainer = styled.button `
   width: auto;
   height: 50px;
   letter-spacing: 0.5px;
-  line-height: 50px;
-  padding: 0 35px 0 35px;
+  line-height: 15px;
+  padding: 0 25px;
   font-size: 14px;
   text-transform: uppercase;
   font-family: 'Open Sans Condensed';

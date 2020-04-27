@@ -8,6 +8,10 @@ export const CheckoutPageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 50px auto 0;
+  @media screen and (max-width: 800px) {
+    font-size: 12px;
+    width: 90%;
+  }
 `;
 
 export const CheckoutPageHeader = styled.div`
@@ -25,12 +29,22 @@ export const HeaderBlock = styled.div`
   &:last-child {
     width: 8%;
   }
+  @media screen and (max-width: 800px) {
+    width: 22%;
+
+    &:last-child {
+      width: 12%
+    }
+  }
 `;
 
 export const TotalContainer = styled.div`
   margin-top: 30px;
   margin-left: auto;
   font-size: 36px;
+  @media screen and (max-width: 800px) {
+    font-size: 25px;
+  }
 `;
 
 export const TestWarningContainer = styled.div`
@@ -38,6 +52,10 @@ export const TestWarningContainer = styled.div`
   margin-top: 40px;
   font-size: 24px;
   color: red;
+  @media screen and (max-width: 800px) {
+    font-size: 12px;
+    width: 90%;
+  }
 `;
 
 export const StripeCheckoutButtonContainer = styled(StripeCheckoutButton)`
