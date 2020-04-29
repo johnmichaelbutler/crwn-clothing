@@ -33,7 +33,7 @@ app.listen(port, error => {
 });
 
 // If SW get request received, will return our service-worker.js from our build folder
-app.get('./service-worker.js)', (req, res) => {
+app.get('/service-worker.js)', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'build', 'service-worker.js'));
 });
 
